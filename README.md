@@ -19,13 +19,13 @@ docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
 # create docker network “network_demo”
 docker network create network_demo
 # create container again with  “network_demo”
-docker run -it --name container1 --network network_demo <image_id>
+docker run -it --name container1 -p 8080:80 --network network_demo <image_id>
 # create “network_demo” dir and copy Dockerfile inside that dir and change directory to “network_demo” 
 mkdir network_demo
 cp Dockerfile network_demo/
 cd network_demo/
 # now run container with “network_demo” that will listen on nginx on port 8000 - do it with volume to the configuration
-docker run -it --name container2 -p 8000:80 --network network_demo -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf image_name
+docker run -it --name container2 -p 8000:80 --network network_demo -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf <image_id>
 # check ping connection by container name (docker dns resolver) between the containers
 docker exec container1 ping container2
 # kill all containers
