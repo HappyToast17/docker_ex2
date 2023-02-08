@@ -26,6 +26,8 @@ cp Dockerfile network_demo/
 cd network_demo/
 # now run container with “network_demo” that will listen on nginx on port 8000 - do it with volume to the configuration
 docker run -it --name container2 -p 8000:80 --network network_demo -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf <image_id>
+# make sure ping utility is installed on each container!
+apt-get update && apt-get install -y iputils-ping
 # check ping connection by container name (docker dns resolver) between the containers
 docker exec container1 ping container2
 # kill all containers
